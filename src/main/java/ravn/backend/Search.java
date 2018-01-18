@@ -15,25 +15,29 @@ public class Search {
 
     public static void main(String[] args) throws IOException {
 
-        String[] searchTerms = new String[2];
-        searchTerms[0] = args[1];
-        if (2 >= args.length) {
-            searchTerms[1] = args[1];
-        } else {
-            searchTerms[1] = args[2];
-        }
+        try {
+            String[] searchTerms = new String[2];
+            searchTerms[0] = args[1];
+            if (2 >= args.length) {
+                searchTerms[1] = args[1];
+            } else {
+                searchTerms[1] = args[2];
+            }
 
-        File file = new File(args[0]);
+            File file = new File(args[0]);
 
-        ImmutableList<String> lines = Files.asCharSource(file, Charsets.UTF_8)
-                .readLines();
+            ImmutableList<String> lines = Files.asCharSource(file, Charsets.UTF_8)
+                    .readLines();
 
-        ListMultimap<String, String> result = createSearchResult(getNamedStringList(lines), searchTerms);
+            ListMultimap<String, String> result = createSearchResult(getNamedStringList(lines), searchTerms);
 
-        for (int x = 0; x < result.asMap().size(); x++) {
-            System.out.println("<" + result.asMap().keySet().toArray()[x] + ">,"
-                    + "<" + result.asMap().values().toArray()[x].toString() + ">");
-            System.out.println("");
+            for (int x = 0; x < result.asMap().size(); x++) {
+                System.out.println("<" + result.asMap().keySet().toArray()[x] + ">,"
+                        + "<" + result.asMap().values().toArray()[x].toString() + ">");
+                System.out.println("");
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Missing program arguments. Example: \"src//main//resources//exercise_data.csv\" \"term1\" \"term2\"");
         }
     }
 
