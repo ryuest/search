@@ -1,6 +1,7 @@
 package ravn.backend; /**
  * Created by jboiko on 16/01/2018.
  */
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.*;
 import com.google.common.io.Files;
@@ -9,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.Collection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class Search {
@@ -57,7 +60,7 @@ public class Search {
         ListMultimap<String, String> result =
                 MultimapBuilder.treeKeys().arrayListValues().build();
         ImmutableMap<String, Collection<String>> documentsMap = builder.build().asMap();
-        for (int x = 0; x < documentsMap.size(); x++) {
+        for (int x = 0; x < documentsMap.get("text").toArray().length; x++) {
             if (findDocument(documentsMap, x, "text").toLowerCase().contains(searchTerms[0].toLowerCase()) && findDocument(documentsMap, x, "text").toLowerCase().contains(searchTerms[1].toLowerCase())) {
                 result.put(findDocument(documentsMap, x, "id"), findDocument(documentsMap, x, "title"));
             }
@@ -68,4 +71,5 @@ public class Search {
     public static String findDocument(ImmutableMap<String, Collection<String>> documentsMap, int number, String type) {
         return documentsMap.get(type).toArray()[number].toString();
     }
+
 }
